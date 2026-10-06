@@ -24,10 +24,10 @@ jobs:
       - name: Run PHP Hello World Test
         run: |
           OUTPUT=$(php hello.php)
-          if [ "$OUTPUT" = "Hello World" ]; then
-            echo "Test passed: Hello World"
+          if [ "$OUTPUT" = "Hello Dennis" ]; then
+            echo "Test passed: Hello Dennis"
           else
-            echo "Test failed: Expected 'Hello World', got '$OUTPUT'"
+            echo "Test failed: Expected 'Hello Dennis', got '$OUTPUT'"
             exit 1
           fi
 
