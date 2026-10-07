@@ -21,12 +21,12 @@ jobs:
 
       - name: Run PHP Condition Test
         run: |
-          OUTPUT=$(php hello.php)
+          OUTPUT=$(php hello.php | xargs)
 
           if [ "$OUTPUT" = "Grade B" ]; then
             echo "Test passed: $OUTPUT"
           else
-            echo "Test failed: Expected Grade B, got $OUTPUT"
+            echo "Test failed: Expected Grade B, got [$OUTPUT]"
             exit 1
           fi
 
