@@ -1,4 +1,4 @@
-name: Core PHP CI/CD Pipeline
+name: PHP CI/CD Pipeline
 
 on:
   push:
@@ -8,42 +8,38 @@ on:
 
 jobs:
   build-and-test:
-    name: Build and Test
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: "8.2"
-          coverage: none
 
-      - name: Run PHP Hello World Test
+      - name: Run PHP Condition Test
         run: |
           OUTPUT=$(php hello.php)
-          if [ "$OUTPUT" = "Hello Dennis" ]; then
-            echo "Test passed: Hello Dennis"
+
+          if [ "$OUTPUT" = "Grade B" ]; then
+            echo "Test passed: $OUTPUT"
           else
-            echo "Test failed: Expected 'Hello Dennis', got '$OUTPUT'"
+            echo "Test failed: Expected Grade B, got $OUTPUT"
             exit 1
           fi
 
   deploy-to-cpanel:
-    name: Deploy to cPanel
     runs-on: ubuntu-latest
     needs: build-and-test
-
-    # ONLY deploy if on the main branch
-    if: github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: FTP Deploy
+      - name: Deploy to cPanel
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
